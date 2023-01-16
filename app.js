@@ -1,29 +1,15 @@
 // TIC-TAC-TOE
-// As users playing a two player game we want to:
-
 // not be able to place our marks in an occupied space
 // be told when a move causes a player to win, or to draw
 // start the game over without having to reset the browser
 // As a user playing a one player game I want to:
-
-// see the name 'Computer' displayed as my opponent
-// have the Computer player make moves as if it were a human player with the correct mark in an empty space
-// As a user playing a single player game I would be delighted to:
-
-// have the Computer make 'better-than-guessing' choices when placing a mark on the board
-// set the board size myself ("wider" or "taller" than 3x3)
-
-// const testingElem = document.getElementById('title');
-
-// console.log(testingElem);
-
 // *************************State*************************
 const gameStatus = document.querySelector(".game-status");
 // let cell = Array.from(document.getElementsByClassName("cell"));
 
 //have an initial state/game state - initialize it as empty
 let state = {
-  // board: ["", "", "", "", "", "", "", "", ""],
+  board: ["", "", "", "", "", "", "", "", ""],
 };
 //pause the game once over
 let gameActive = true;
@@ -32,7 +18,7 @@ let player = "x";
 let spaces = Array(9).fill(null);
 
 //creating a reset function state in the game
-const resetState = () => {
+function resetState() {
   state.board = ["", "", "", "", "", "", "", "", ""];
   state.winner = null;
   state.getCurrentPlayer = () => state.players[state.currentPlayerIdx];
@@ -42,7 +28,7 @@ const resetState = () => {
   // state.scores = [0,0];
   state.getCurrentPlayerIdx = 0;
   state.lastTurnedIdx = -1;
-};
+}
 
 const winConditions = [
   [0, 1, 2],
@@ -132,6 +118,10 @@ const renderPlayer = () => {
 const resetButton = document.createElement("button");
 resetButton.addEventListener("click", () => {
   console.log("this is the click:");
+  let text;
+  text = ` 
+        <button type="button" class="start">Restart Game</button>
+        `;
   resetState();
   render();
 });
@@ -154,14 +144,14 @@ boardElem.addEventListener("click", (event) => {
   const cellIdx = event.target.dataset.index;
   console.dir(event.target.dataset);
   takeTurn(cellIdx);
-  checkBoard();
+  // checkBoard();
   render();
 });
 
 playerTurnElem.addEventListener("click", (event) => {
   console.log("this is the event from playerTurnElem", event.target);
   if (event.target.className === ".restart-game") {
-    resetButton.classList.add("restart-game");
+    resetButton.classList.add(".restart-game");
     resetState();
     render();
   } else if (event.target.className === "start") {
@@ -253,31 +243,31 @@ const checkWinBoard = () => {
   handleChangeTurn();
 };
 
-function handleCellClick(clickedCellEvent) {
-  const clickedCell = clickedCellEvent.target;
-  const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
+// function handleCellClick(clickedCellEvent) {
+//   const clickedCell = clickedCellEvent.target;
+//   const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
 
-  if (reset(state.board)[clickedCellIndex] !== "" || !gameActive) {
-    return;
-  }
+//   if (reset(state.board)[clickedCellIndex] !== "" || !gameActive) {
+//     return;
+//   }
 
-  handleCellPlayed(clickedCell, clickedCellIndex);
-  checkWinBoard();
-}
+//   handleCellPlayed(clickedCell, clickedCellIndex);
+//   checkWinBoard();
+// }
 // ************************ENDGAME/WINNER************************
 
 // ************************RESET GAME************************
 
-function restartGame() {
-  gameActive = true;
-  currentPlayer = "x";
-  state = ["", "", "", "", "", "", "", "", ""];
-  document.querySelectorAll(".cell").forEach((cell) => (cell.innerHTML = ""));
-}
+// function restartGame() {
+//   gameActive = true;
+//   currentPlayer = "x";
+//   state = ["", "", "", "", "", "", "", "", ""];
+//   document.querySelectorAll(".cell").forEach((cell) => (cell.innerHTML = ""));
+// }
 // *************************BOOTSTRAPPING*************************
 resetState();
 render();
-restartGame();
+// restartGame();
 //needs to call the function afterwards
 // console.log(state.board.length);
 // console.log(state.board);
@@ -285,4 +275,4 @@ restartGame();
 document
   .querySelectorAll(".cell")
   .forEach((cell) => cell.addEventListener("click", handleCellClick));
-document.querySelector(".restart-game").addEventListener("click", restartGame);
+// document.querySelector(".restart-game").addEventListener("click", restartGame);
